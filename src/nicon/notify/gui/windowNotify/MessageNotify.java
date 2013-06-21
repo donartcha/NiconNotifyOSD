@@ -13,6 +13,7 @@ import nicon.notify.core.NotifyConfig;
  * @author frederick
  */
 public class MessageNotify extends WindowNotify{
+    
     private NiconEvent ev;
     private ImageIcon icon;
     

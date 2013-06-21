@@ -10,9 +10,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import nicon.notify.core.NiconEvent;
 import nicon.notify.core.NotifyConfig;
@@ -29,7 +31,7 @@ public class WindowNotify extends JDialog {
     private JLabel jlTitle;
     private JLabel jlMessage;
     private ImageIcon image;
-    private JButton jbAcept;
+    protected JButton jbAcept;
     
     private NiconEvent ev;
     private NotifyConfig config;
@@ -87,7 +89,15 @@ public class WindowNotify extends JDialog {
         
         add(panel);
     }
+    public void addTextField(JTextField textField){
+        panel.add(textField);
+        repaint();
+    }
     
+    public void addButton(JButton button){
+        panel.add(button);
+        repaint();
+    }
     public void setTitleNotify(String title){
         this.jlTitle.setText(title);
     }
@@ -107,6 +117,10 @@ public class WindowNotify extends JDialog {
 
     public NiconEvent getEv() {
         return ev;
+    }
+    
+    public void moveAceptButton(int x,int y){
+        jbAcept.setBounds(x, y, 120, 30);
     }
     
     
