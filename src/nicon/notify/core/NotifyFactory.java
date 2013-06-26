@@ -4,8 +4,6 @@
  */
 package nicon.notify.core;
 
-import com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel;
-import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import nicon.notify.gui.windowNotify.ConfirmNotify;
 import nicon.notify.gui.windowNotify.InputNotify;
@@ -86,6 +84,34 @@ public class NotifyFactory {
     public static int showConfirmNotify(NiconEvent event){
         int option=-1;
             confirmNotify=new ConfirmNotify(event);
+            confirmNotify.setVisible(true);
+            
+                while(confirmNotify.isShowing()!=true){
+                    option=confirmNotify.getSelectedOption();
+                    System.out.println("opcion seleccionada: "+option);
+                    break;
+                }
+        return option;
+    }
+    
+    /**
+     * Este metodo permite crear una nueva notificacion del tipo ConfirmNotify
+     * ofrece la opcion de que el usuario pueda responder a una solicitud de forma
+     * simple a traves de esta interfaz y retorna un valor entero representativo de
+     * esa seleccion, en este caso si el usuario acepta la opcion propuesta
+     * se retornará 0 y en caso contrario de que no acepte la propocicion retornara
+     * como opcion seleccionada 1, recibe como parametros el objeto NiconEvent a
+     * mostrar, el texto del boton aceptar a ajustar y el texto del boton cancelar
+     * a mostrar personalizadamente en su interfaz.
+     * 
+     * @param event
+     * @param textAceptButton
+     * @param textNoButton
+     * @return int selectedOption
+     */
+    public static int showConfirmNotify(NiconEvent event,String textAceptButton, String textNoButton){
+        int option=-1;
+            confirmNotify=new ConfirmNotify(event,textAceptButton,textNoButton);
             confirmNotify.setVisible(true);
             
                 while(confirmNotify.isShowing()!=true){
