@@ -4,10 +4,12 @@
  */
 package nicon.notify.gui.windowNotify;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import nicon.notify.core.NiconEvent;
+import nicon.notify.core.NotifyConfig;
 
 /**
  * Esta clase definirá la creacion de Objetos del tipo WindowNotify en su 
@@ -19,25 +21,51 @@ import nicon.notify.core.NiconEvent;
  */
 public class ConfirmNotify extends WindowNotify {
 
-    private JButton yesButton;
     private JButton noButton;
+    
+    private NiconEvent ev;
+    private NotifyConfig config;
+    private String textAceptButton="Si";
+    private String textCancelButton="No";
     
     private ImageIcon icon;
     
     private int option=-1;
     
+    /**
+     * Este Consructor permite crea una nueva ConfirmNotify recibiendo un 
+     * evento del tipo NiconEvent a mostrar
+     * @param ev 
+     */
     public ConfirmNotify(NiconEvent ev) {
         super(ev);
+        this.ev=ev;
+        config=NotifyConfig.getInstance();
         setSize(600, 230);
         init();
+        setTypeNotify();
+    }
+    
+    /**
+     * Este metodo permite crear una nueva ConfirmNotify recibiendo como parametros
+     * el evento a mostrar y el texto del boton aceptar y cancelar.
+     * @param ev
+     * @param buttonText 
+     */
+    public ConfirmNotify(NiconEvent ev, String yesbuttonText,String noButtonText ){
+        super(ev);
+        this.ev=ev;
+        this.textAceptButton=yesbuttonText;
+        this.textCancelButton=noButtonText;
+        config=NotifyConfig.getInstance();
+        setSize(600, 230);
+        init();
+        setTypeNotify();
     }
 
-    private void init() {      
-        icon=new ImageIcon(getClass().getResource("/nicon/notify/gui/Icons/NiconInterrogative.png"));
-        setIconMessage(icon);
-        setForegroundTitle(new java.awt.Color(90, 130, 202));
+    private void init() {       
         
-        jbAcept.setText("Si");
+        jbAcept.setText(textAceptButton);
         jbAcept.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -46,7 +74,7 @@ public class ConfirmNotify extends WindowNotify {
         });
         moveAceptButton(450, 170);
         
-        noButton=new JButton("No");
+        noButton=new JButton(textCancelButton);
         noButton.setBounds(320, 170, 120, 30);
         noButton.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -56,6 +84,7 @@ public class ConfirmNotify extends WindowNotify {
             }
         });
         addButton(noButton);
+        this.getRootPane().setDefaultButton(jbAcept);
     }
     
     /**
@@ -68,6 +97,31 @@ public class ConfirmNotify extends WindowNotify {
      */
     public int getSelectedOption(){        
         return option;
+    }
+
+    /**
+     * Este metodo se encarga de ajustar la ConfirmNotify de acuerdo al entorno
+     * de ejecucion o  al tipo de evento que se desea informar, bien sea de 
+     * confirmacion de notificacion de error o de advertencia o de Exito.
+     */
+    private void setTypeNotify() {
+        if(ev.getTipeMessage()==NiconEvent.NOTIFY_CONFIRM){
+            icon=new ImageIcon(getClass().getResource("/nicon/notify/gui/Icons/NiconInterrogative.png")); 
+            setForegroundTitle(config.getFontConfirmColor());
+        }
+       if(ev.getTipeMessage()==NiconEvent.NOTIFY_WARNING){
+           icon=new ImageIcon(getClass().getResource("/nicon/notify/gui/Icons/NiconWarning.png")); 
+           setForegroundTitle(config.getFontWarningColor());
+       }
+       if(ev.getTipeMessage()==NiconEvent.NOTIFY_ERROR){
+           icon=new ImageIcon(getClass().getResource("/nicon/notify/gui/Icons/NiconError.png")); 
+           setForegroundTitle(config.getFontErrorColor());
+       }
+       if(ev.getTipeMessage()==NiconEvent.NOTIFY_OK){
+           icon=new ImageIcon(getClass().getResource("/nicon/notify/gui/Icons/NiconOK_1.png"));  
+           setForegroundTitle(config.getFontOKColor());
+       }
+       setIconMessage(icon);
     }
     
 }
