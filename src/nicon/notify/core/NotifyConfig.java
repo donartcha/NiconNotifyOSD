@@ -19,6 +19,7 @@ public class NotifyConfig {
     private Color fontErrorColor;
     private Color fontWarningColor;
     private Color fontOKColor;
+    private Color fontConfirmColor;
     
     private static NotifyConfig instance;
     
@@ -29,6 +30,7 @@ public class NotifyConfig {
         fontErrorColor=new java.awt.Color(166,16,12);
         fontWarningColor=new java.awt.Color(230,89,0);
         fontOKColor=new java.awt.Color(116,164,0);
+        fontConfirmColor=new java.awt.Color(90, 130, 202);
     } 
       
     public  Font getTitleFont() {
@@ -50,7 +52,11 @@ public class NotifyConfig {
     public  Color getFontOKColor() {
         return fontOKColor;
     }
-     
+
+    public Color getFontConfirmColor() {
+        return fontConfirmColor;
+    }
+        
     public static NotifyConfig getInstance(){
         if(instance==null){
             instance=new NotifyConfig();
