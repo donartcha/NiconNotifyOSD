@@ -5,6 +5,9 @@
 package nicon.notify.core;
 
 import javax.swing.UnsupportedLookAndFeelException;
+import nicon.notify.gui.desktopNotify.ControllerDesktopNotify;
+import nicon.notify.gui.desktopNotify.DesktopConfirm;
+import nicon.notify.gui.desktopNotify.DesktopNotify;
 import nicon.notify.gui.windowNotify.ConfirmNotify;
 import nicon.notify.gui.windowNotify.InputNotify;
 import nicon.notify.gui.windowNotify.MessageNotify;
@@ -21,6 +24,9 @@ public class NotifyFactory {
     private static MessageNotify messageNotify;
     private static InputNotify inputNotify;
     private static ConfirmNotify confirmNotify;
+    private static DesktopNotify desktopNotify;
+    
+    private static NotifyUtil util;
     
     private static String response;
     
@@ -32,7 +38,7 @@ public class NotifyFactory {
      * @param ev
      * @throws UnsupportedLookAndFeelException 
      */
-    public static void showWindowNotify(NiconEvent ev) throws UnsupportedLookAndFeelException{
+    public static void showWindowNotify(NiconEvent ev) throws UnsupportedLookAndFeelException{         
         windowNotify=new WindowNotify(ev);
         windowNotify.setVisible(true);
     }
@@ -64,7 +70,7 @@ public class NotifyFactory {
         inputNotify.setVisible(true);
             while(inputNotify.isShowing()!=true){
                 response=inputNotify.getInputData();
-                System.out.println("Dato Ingresado:  "+response);
+                System.out.println("return data input:  "+response);
                 break;
             }
         return response;
@@ -88,7 +94,7 @@ public class NotifyFactory {
             
                 while(confirmNotify.isShowing()!=true){
                     option=confirmNotify.getSelectedOption();
-                    System.out.println("opcion seleccionada: "+option);
+                    System.out.println("Selected Option: "+option);
                     break;
                 }
         return option;
@@ -116,9 +122,20 @@ public class NotifyFactory {
             
                 while(confirmNotify.isShowing()!=true){
                     option=confirmNotify.getSelectedOption();
-                    System.out.println("opcion seleccionada: "+option);
+                    System.out.println("selected Option: "+option);
                     break;
                 }
         return option;
+    }
+    
+    /**
+     * Este metodo permite crear una notifiacion del tipo DesktopNotify con el
+     * objeto <b> NiconEvent<b> recibido, esto hará que el controlador de notificaciones
+     * de escritorio pueda ejecutar la notificacion en el escritorio del Usuario.
+     * @param ev 
+     */
+    public static void showDesktopNotify(NiconEvent ev){
+        desktopNotify=new DesktopConfirm(ev);
+        ControllerDesktopNotify.showNotify(desktopNotify);
     }
 }
